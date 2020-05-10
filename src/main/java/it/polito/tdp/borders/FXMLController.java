@@ -23,6 +23,16 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+//COMMENTI LABORATORIO
+
+/*
+ 	Per quanto riguarda la ricerca dei vicini nel secondo esercizio io ho scorso direttamente la componente connessa in cui era presente 
+ 	lo stato che ho selezionato. 
+ 	
+ 	Non era pero' la richiesta per questo punto e quindi devo aggiungere la parte commentata di come si faceva, o comunque guardare come
+ 	si faceva per completezza.
+ */
+
 
 public class FXMLController {
 	
