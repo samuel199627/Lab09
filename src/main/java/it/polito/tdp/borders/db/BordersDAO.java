@@ -61,7 +61,7 @@ public class BordersDAO {
 			while (rs.next()) {
 				//System.out.format("%d %s %s\n", rs.getInt("ccode"), rs.getString("StateAbb"), rs.getString("StateNme"));
 				
-				result.add(new Border(paesi.get(rs.getInt("state1no")),paesi.get(rs.getInt("state1no")),anno));
+				result.add(new Border(paesi.get(rs.getInt("state1no")),paesi.get(rs.getInt("state2no")),anno));
 				
 			}
 			

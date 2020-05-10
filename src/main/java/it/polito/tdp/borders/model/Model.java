@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jgrapht.Graph;
+import org.jgrapht.Graphs;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
@@ -64,7 +65,18 @@ public class Model {
 		
 		this.caricaConnessioni(anno);
 		
-		//aggiungo tutti i vertici
+		//aggiungo tutti i vertici al grafo
+		Graphs.addAllVertices(grafo, verticiConnessi.values());
+		System.out.println("Vertici aggiunti: "+grafo.vertexSet().size());
+		
+		for(Border b: connessioni) {
+			//System.out.println("\nVertice Partenza: "+b.getUno().toString()+" "+"Vertice Arrivo: "+b.getDue().toString());
+			//se non c'e' gia' l'arco lo vado ad aggiungere
+			if(!grafo.containsEdge(b.getUno(), b.getDue())) {
+				grafo.addEdge(b.getUno(), b.getDue());
+			}
+			
+		}
 		
 		
 		return grafo;

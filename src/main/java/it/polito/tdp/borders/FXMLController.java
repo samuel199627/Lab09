@@ -2,8 +2,15 @@
 package it.polito.tdp.borders;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.SimpleGraph;
+
+import it.polito.tdp.borders.model.Country;
 import it.polito.tdp.borders.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +22,7 @@ import javafx.scene.control.TextField;
 public class FXMLController {
 	
 	Model model;
+	Graph<Country, DefaultEdge> grafo;
 
     @FXML
     private ResourceBundle resources;
@@ -26,7 +34,7 @@ public class FXMLController {
     private TextField txtAnno;
 
     @FXML
-    private ComboBox<?> countryBox;
+    private ComboBox<Country> countryBox;
 
     @FXML
     private Button ricercaBtn;
@@ -36,6 +44,43 @@ public class FXMLController {
 
     @FXML
     void doCalcolaConfini(ActionEvent event) {
+    	
+    	txtResult.clear();
+    	
+    	//controlliamo per prima cosa nell'importazione che abbiamo effettivamente inserito un numero
+    	int anno ;
+    	try {
+    		anno = Integer.parseInt(txtAnno.getText());
+    	} catch (Throwable t){
+    		txtResult.appendText("Errore nell'input!");
+    		return;
+    	}
+    	
+    	//controlliamo che l'anno sia nell'intervallo specificato
+    	if(anno<1816 || anno>2016) {
+    		System.out.println("ANNO FUORI RANGE!");
+    		return;
+    	}
+    	
+    	System.out.println("COSTRUIAMO IL GRAFO!");
+    	grafo=new SimpleGraph<Country, DefaultEdge>(DefaultEdge.class);
+    	grafo=model.creaGrafo(anno);
+    	
+    	System.out.println("\nINFORMAZIONI SUL GRAFO: \n");
+    	System.out.println("\nNumero di vertici: "+grafo.vertexSet().size());
+    	System.out.println("\nNumero di archi: "+grafo.edgeSet().size());
+    	
+    	for(Country c:grafo.vertexSet()) {
+    		txtResult.appendText(""+c.toString()+" - grado "+grafo.degreeOf(c)+"\n");
+    	}
+    	
+    	
+    	Map<Integer, Country> verticiConnessi=new HashMap<Integer, Country>();
+    	verticiConnessi=model.estraiVerticiConnessi();
+    	countryBox.getItems().clear();
+    	countryBox.getItems().addAll(verticiConnessi.values());
+    	
+    	
 
     }
 
@@ -56,7 +101,7 @@ public class FXMLController {
 	public void setModel(Model model) {
 		// TODO Auto-generated method stub
 		this.model=model;
-		
+		model.caricaCountries();
 	}
     
     
