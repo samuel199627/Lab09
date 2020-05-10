@@ -2,11 +2,15 @@
 package it.polito.tdp.borders;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.jgrapht.Graph;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
@@ -19,10 +23,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+
 public class FXMLController {
 	
 	Model model;
 	Graph<Country, DefaultEdge> grafo;
+	List<Set<Country>> componentiConnesse;
 
     @FXML
     private ResourceBundle resources;
@@ -74,6 +80,20 @@ public class FXMLController {
     		txtResult.appendText(""+c.toString()+" - grado "+grafo.degreeOf(c)+"\n");
     	}
     	
+    	//componenti connesse
+    	ConnectivityInspector ispezione=new ConnectivityInspector(grafo);
+    	componentiConnesse=new ArrayList<Set<Country>>();
+    	componentiConnesse=ispezione.connectedSets();
+    	txtResult.appendText("Componenti connesse: "+componentiConnesse.size());
+    	System.out.println("\n\nCOMPONENTI CONNESSE.\n");
+    	int conta=0;
+    	for(Set<Country> s:componentiConnesse) {
+    		conta++;
+    		System.out.println("\n\nCOMPONENTE "+conta+":\n\n");
+    		for(Country c:s) {
+    			System.out.println(""+c.toString());
+    		}
+    	}
     	
     	Map<Integer, Country> verticiConnessi=new HashMap<Integer, Country>();
     	verticiConnessi=model.estraiVerticiConnessi();
