@@ -101,12 +101,37 @@ public class FXMLController {
     	countryBox.getItems().addAll(verticiConnessi.values());
     	
     	
+    	
 
     }
 
     @FXML
     void doRicerca(ActionEvent event) {
 
+    	txtResult.clear();
+    	if(countryBox.getValue()==null) {
+    		txtResult.appendText("SELEZIONA UN PAESE!!");
+    		return;
+    	}
+    	
+    	//avendo tutte le componenti connesse mi vado a cercare in quale si trova lo stato che ho passato come parametro
+    	List<Country> nodiConnessi=new ArrayList<>();
+    	for(Set<Country> s:componentiConnesse) {
+    		if(s.contains(countryBox.getValue())) {
+    			for(Country c: s) {
+    				//escludo solo di inserire lo stato che sto considerando
+    				if(!c.equals(countryBox.getValue())) {
+    					nodiConnessi.add(c);
+    				}
+    			}
+    		}
+    	}
+    	
+    	for(Country c: nodiConnessi) {
+    		txtResult.appendText(""+c.toString()+"\n");
+    	}
+    	
+    	
     }
 
     @FXML
